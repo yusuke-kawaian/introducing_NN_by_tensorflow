@@ -1,5 +1,5 @@
 # introducing_NN_by_tensorflow
-This trial aims introduction of NN to my research by tensorflow of Python.   
+This trial aims introduction of NN to my research by tensorflow of Python. To keep accuracy of this README, I write on Japanese, README (Japanese).md, too just in case.    
 
 # Overview
 My study investigates the characteristics that metal cations selectivity adsorb to micro porous carbon with applied voltage by MD simulation. In this trial, I construct the ML model that predicts the probability `pred_P` that metal cations adsorb to a pore with 7 parameters, `mass`, `valent`, the first/second hydration radius `r1/ r2`, the maximum value of RDF `gr_max`, voltage `vol` and pore diameter `pore_d`, by R. The number of dataset is **222**.       
