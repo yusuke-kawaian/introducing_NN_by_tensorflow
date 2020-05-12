@@ -114,7 +114,7 @@ y = sess.run(tf.nn.relu(tf.matmul(h_fc2, sess.run(W_fc3)) + sess.run(b_fc3)))
 ```
 
 # Conclusion    
-I could construct NN model by tensorflow. However, the behavior of accuracy is strange like below although loss converged.  
+I could construct NN model by tensorflow. However, **the behavior of accuracy is strange like below although loss converged**.  
 ```
 step 0, training accuracy 1, loss 201.881
 step 1000, training accuracy 1, loss 14.555
