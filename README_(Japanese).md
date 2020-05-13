@@ -58,7 +58,7 @@ y = tf.nn.relu(tf.matmul(h_fc2, W_fc3) + b_fc3)
 ```
 
 ### loss function
-In this trial, I used **MSD** as error function and used **Adam Optimizer**.    
+In this trial, I used **MSE** as error function and used **Adam Optimizer**.    
 ``` 
 loss = tf.reduce_sum(tf.square(y - y_))
 train_step = tf.train.AdamOptimizer(1e-5).minimize(loss)
@@ -133,4 +133,4 @@ step 10000, training accuracy 1, loss 2.92083
 
 # My Problems  
 * lossは収束するが, accuracyがずっと1を示している.  
-* 今回の被説明変数 `pred_P` は確率の値であるから, どのような戦略でモデルを構築すべきか.  
+* 今回の被説明変数 `pred_P` は確率の値である. このmodelの出力層はsoftmax関数を通すべきか. また, error fuc. にはMSEとcloss enthoropyどちらが適切か.  
