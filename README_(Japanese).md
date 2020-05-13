@@ -1,8 +1,8 @@
 # introducing_NN_by_tensorflow
-This trial aims introduction of NN to my research by tensorflow of Python. **To keep accuracy of this README, I write on Japanese, README (Japanese).md, too just in case**.    
+Rを用いた機械学習モデルの構築の練習とそのメモである. 後述のRのpackageを用いて自身のMDシミュレーションを用いた研究に機械学習を導入することを目指す. 正確性を担保するため一応日本語でも記す.  
 
-# Overview
-My study investigates the characteristics that metal cations selectivity adsorb to micro porous carbon with applied voltage by MD simulation. In this trial, I construct the ML model that predicts the probability `pred_P` that metal cations adsorb to a pore with 7 parameters, `mass`, `valent`, the first/second hydration radius `r1/ r2`, the maximum value of RDF `gr_max`, voltage `vol` and pore diameter `pore_d`, by R. The number of dataset is **157**.       
+# Overview    
+私の研究は, MD計算を用いて系に電圧を印加した際のカチオンの多孔質カーボンへの選択的吸着の特性を調査するものである. 本試行はRを用いてカチオンの質量 `mass`, 価数 `valent`, 第一/第二水和半径 `r1/r2`, RDFの最大値 `gr_max` 並びに系に印加した電圧 `vol`, 系の細孔径 `pore_d` の7つの特徴量から細孔内へカチオンが吸着される確率 `pred_P` を予測するモデルを作成する. data数は**157個**.         
 
 # Description  
 この試行はanaconda3/5.3.1下で行った.  
@@ -133,4 +133,4 @@ step 10000, training accuracy 1, loss 2.92083
 
 # My Problems  
 * lossは収束するが, accuracyがずっと1を示している.  
-* 今回の被説明変数 `pred_P` は確率の値であるから, どの act. func. / error func. を使えばいいのか.  
+* 今回の被説明変数 `pred_P` は確率の値であるから, どのような戦略でモデルを構築すべきか.  
