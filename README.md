@@ -58,7 +58,7 @@ y = tf.nn.relu(tf.matmul(h_fc2, W_fc3) + b_fc3)
 ```
 
 ### loss function
-In this trial, I used **MSD** as error function and used **Adam Optimizer**.    
+In this trial, I used **MSE** as error function and used **Adam Optimizer**.    
 ``` 
 loss = tf.reduce_sum(tf.square(y - y_))
 train_step = tf.train.AdamOptimizer(1e-5).minimize(loss)
