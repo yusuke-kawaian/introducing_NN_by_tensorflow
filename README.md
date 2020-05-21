@@ -1,15 +1,15 @@
 # introducing_NN_by_tensorflow
-This trial aims introduction of NN to my research by tensorflow of Python. **To keep accuracy of this README, I write on Japanese, README (Japanese).md, too just in case**.    
+Rを用いた機械学習モデルの構築の練習とそのメモである. 後述のRのpackageを用いて自身のMDシミュレーションを用いた研究に機械学習を導入することを目指す. 正確性を担保するためREADMEは日本語で記す. 同時に英語の練習も兼ねて英語 (README_(English).md) でも記す.  
 
-# Overview
-My study investigates the characteristics that metal cations selectivity adsorb to micro porous carbon with applied voltage by MD simulation. In this trial, I construct the ML model that predicts the probability `pred_P` that metal cations adsorb to a pore with 7 parameters, `mass`, `valent`, the first/second hydration radius `r1/ r2`, the maximum value of RDF `gr_max`, voltage `vol` and pore diameter `pore_d`, by R. The number of dataset is **157**.       
+# Overview    
+私の研究は, MD計算を用いて系に電圧を印加した際のカチオンの多孔質カーボンへの選択的吸着の特性を調査するものである. 本試行はRを用いてカチオンの質量 `mass`, 価数 `valent`, 第一/第二水和半径 `r1/r2`, RDFの最大値 `gr_max` 並びに系に印加した電圧 `vol`, 系の細孔径 `pore_d` の7つの特徴量から細孔内へカチオンが吸着される確率 `pred_P` を予測するモデルを作成する. data数は**157個**.         
 
 # Description  
-This trial carried out on anaconda3/5.3.1.  
+この試行はanaconda3/5.3.1下で行った.  
 ## Package
 * tensorflow 1.12.0 
 * pandas 0.25.3  
-* numpy 1.14.5   
+* numpy 1.14.5  
 
 ## constructing NN model
 ### shaping dataset
@@ -114,8 +114,14 @@ h_fc2 = sess.run(tf.nn.relu(tf.matmul(h_fc1, sess.run(W_fc2)) + sess.run(b_fc2))
 y = sess.run(tf.nn.relu(tf.matmul(h_fc2, sess.run(W_fc3)) + sess.run(b_fc3)))
 ```
 
+### Output glaphs by TensorBoard  
+今回は`tf.name_scope()`や`tf.summary()`関数を用いてTensorBoardでモデルを描画した.  
+TensorBoardはanaconda上で仮想環境を構築したクライアントPCで起動した. (`tensorboard --logdir=[TensorBoardディレクトリの絶対パス]`で起動後, http://localhost:6006 でローカルホストで開く. )  
+
+
 # Conclusion    
-I could construct NN model by tensorflow. However, **the behavior of accuracy shows 1 constantly like below although loss converged**.  
+tensorflowを用いてNNモデルを作成することは成功したが、以下の結果のように**lossは収束するもののaccuracyがずっと1を示す事象を観測した**. 　　
+このNN modelは以前別の被説明変数に対して作ったものと同様であるにも関わらず、今回被説明変数を`pre_p`に変更したことで以下の挙動をしめすようになった.  
 ```
 step 0, training accuracy 1, loss 201.881
 step 1000, training accuracy 1, loss 14.555
@@ -131,5 +137,5 @@ step 10000, training accuracy 1, loss 2.92083
 ```
 
 # My Problems  
-* the behavior of accuracy is strange like below although loss converged.  
-* which error func. do I use, MSE or closs enthoropy?   
+* ~~lossは収束するが, accuracyがずっと1を示している.~~　→　`accuracy = tf.reduce_mean(tf.cast(tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1)), tf.float32))`はラベルが正しいかどうかをTRUE/FARSE判定し, その合算から算出していることからそもそも回帰問題のaccuracyとして用いることがナンセンスであると考えられる. 回帰問題は現在lossとして用いているMSE, その他にはRMSE, MSA, R2値を用いるのが良いと考えられる.   
+* ~~今回の被説明変数 `pred_P` は確率の値である. このmodelの出力層はsoftmax関数を通すべきか. また, error fuc. にはMSEとcloss enthoropyどちらが適切か.~~ →　softmax関数は一般的にクラス分類で用いられている活性化関数である. この関数の概形を見ると0付近と1付近の値を取りやすく設計してあることが分かる. 今回はあくまで回帰問題であるため, linear-outputが妥当であると判断する. (この場合, 元の確率(0～1)だとlossがとても小さく見積もられてしまうので, p_totalを100倍して百分率の値を入力してモデルを作成いた方がよいと考える.)    
