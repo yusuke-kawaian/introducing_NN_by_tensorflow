@@ -34,7 +34,7 @@ normed_train_data = (train_dataset - np.array(norm_min))/np.array(norm_max - np.
 
 
 ### Loss Function
-今回は**RMSE**を損失関数とし, **Adam Optimizer**で最適化した. 同時に**MSA**も計算しTensorBoardで追跡しておいた.  
+今回は**RMSE**を損失関数とし, **Adam Optimizer**で最適化した. 同時に**MAE**も計算しTensorBoardで追跡した.  
 ちなみに, 精度の評価について参考にしたのはこちら. <a href="https://pythondatascience.plavox.info/scikit-learn/回帰モデルの評価" target="_blank">[here]</a>  
     
 ``` 
@@ -105,5 +105,5 @@ accuracyの項で述べたように以前のaccuracyの定義が回帰問題に�
 今回新たに構築したNN modelの精度は, training RMSE = 3.33, test RMSE = 5.12 であった. 
 
 # My Problems  
-* ~~lossは収束するが, accuracyがずっと1を示している.~~　→　そもそも回帰問題に以前の定義のaccuracyとして用いることがナンセンスであると考えられる. 回帰問題は現在lossとして用いているMSE, その他にはRMSE, MSA, R2値を用いるのが良いと考えられる.   
+* ~~lossは収束するが, accuracyがずっと1を示している.~~　→　そもそも回帰問題に以前の定義のaccuracyとして用いることがナンセンスであると考えられる. 回帰問題は現在lossとして用いているRMSE, その他にはMSE, MAE, 決定係数<img src="https://latex.codecogs.com/gif.latex?R^2"/>を用いるのが良いと考えられる.   
 * ~~今回の被説明変数 `pred_P` は確率の値である. このmodelの出力層はsoftmax関数を通すべきか. また, error fuc. にはMSEとcloss enthoropyどちらが適切か.~~ →　softmax関数は一般的にクラス分類で用いられている活性化関数である. この関数の概形を見ると0付近と1付近の値を取りやすく設計してあることが分かる. 今回はあくまで回帰問題であるため, linear-outputが妥当であると判断する.   
