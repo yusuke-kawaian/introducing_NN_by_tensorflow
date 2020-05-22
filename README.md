@@ -28,14 +28,15 @@ normed_train_data = (train_dataset - np.array(norm_min))/np.array(norm_max - np.
 
 ### definition NN model
 今回はとりあえず以下のNNモデルを構築した. ハイパーパラメータはこれからチューニングする予定.  
-今回は参考にさせて頂いたHPのやり方 ([here](https://qiita.com/SwitchBlade/items/6677c283b2402d060cd0)) に従い, 別ファイル, NN_model.py, にclassを作ってNNモデルを定義した.  
+今回は参考にさせて頂いたHPのやり方 <a href="https://qiita.com/SwitchBlade/items/6677c283b2402d060cd0" target="_blank">[here]</a>に従い, 別ファイル, NN_model.py, にclassを作ってNNモデルを定義した.  
 
 ![NN model](https://github.com/yusuke-kawaian/introducing_NN_by_tensorflow/blob/master/DNN1.png)
 
 
 ### loss function
 今回は**RMSE**を損失関数とし, **Adam Optimizer**で最適化した. 同時に**MSA**も計算しTensorBoardで追跡しておいた.  
-ちなみに, 精度の評価について参考にしたのはこちら. [here](https://pythondatascience.plavox.info/scikit-learn/回帰モデルの評価)     
+ちなみに, 精度の評価について参考にしたのはこちら. <a href="https://pythondatascience.plavox.info/scikit-learn/回帰モデルの評価" target="_blank">[here]</a>  
+    
 ``` 
 def loss1(y, y_):
     with tf.name_scope("calculate_RMSE") as scope:
@@ -59,7 +60,7 @@ def training(loss, learning_rate):
 ```
 accuracy = tf.reduce_mean(tf.cast(tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1)), tf.float32))
 ```  
-よくよくこのコードについて勉強する ([here](http://testpy.hatenablog.com/entry/2016/11/27/035033)) と, 値の合否をTRUE/FALSE判定して, その1/0を用いて計算していた. つまり, **回帰問題には不適であったということである.** (ネットで調べてもみんなMNISTの手書き数字の判定ばかりだからなかなか気づかなかった…)  
+よくよくこのコードについて勉強する <a href="http://testpy.hatenablog.com/entry/2016/11/27/035033" target="_blank">[here]</a> と, 値の合否をTRUE/FALSE判定して, その1/0を用いて計算していた. つまり, **回帰問題には不適であったということである.** (ネットで調べてもみんなMNISTの手書き数字の判定ばかりだからなかなか気づかなかった…)  
 結論としては, **本試行ではRMSEとMSAをaccuracyの指標として使用した.** 近いうちに決定係数<img src="https://latex.codecogs.com/gif.latex?R^2"/>を導入したい.  
 
 ### training model
