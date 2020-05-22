@@ -30,7 +30,7 @@ normed_train_data = (train_dataset - np.array(norm_min))/np.array(norm_max - np.
 今回はとりあえず以下のNNモデルを構築した. ハイパーパラメータはこれからチューニングする予定.  
 今回は参考にさせて頂いたHPのやり方 ([here](https://qiita.com/SwitchBlade/items/6677c283b2402d060cd0)) に従い, 別ファイル, NN_model.py, にclassを作ってNNモデルを定義した.  
 
-![NN model](https://github.com/yusuke-kawaian/introducing_NN_by_tensorflow/DNN1.png)
+![NN model](https://github.com/yusuke-kawaian/introducing_NN_by_tensorflow/blob/master/DNN1.png)
 
 
 ### loss function
@@ -76,7 +76,7 @@ tssrun python3 NN_train.py -W hh:mm
 今回は`tf.name_scope()`や`tf.summary()`関数を用いてTensorBoardでモデルを描画した.  
 TensorBoardはanaconda上で仮想環境を構築したクライアントPCで起動した. (`tensorboard --logdir=[TensorBoardディレクトリの絶対パス]`で起動後, **http://localhost:6006** で開く. )  
 
-![NN model](https://github.com/yusuke-kawaian/introducing_NN_by_tensorflow/DNN1_tensorboard.png)
+![NN model](https://github.com/yusuke-kawaian/introducing_NN_by_tensorflow/blob/master/DNN1_tensorboard.png)
 
 
 # Conclusion    
@@ -97,7 +97,7 @@ step 10000, training accuracy 1, loss 2.92083
 ```  
 accuracyの項で述べたように以前のaccuracyの定義が回帰問題にそぐわなかったと考えられる. 
 
-<img src="https://github.com/yusuke-kawaian/introducing_NN_by_tensorflow/master/RMSE_train_20200521_1Mstep.png"/>
+![RMSE](https://github.com/yusuke-kawaian/introducing_NN_by_tensorflow/blob/master/RMSE_train_20200521_1Mstep.png)  
 
 # My Problems  
 * ~~lossは収束するが, accuracyがずっと1を示している.~~　→　そもそも回帰問題に以前の定義のaccuracyとして用いることがナンセンスであると考えられる. 回帰問題は現在lossとして用いているMSE, その他にはRMSE, MSA, R2値を用いるのが良いと考えられる.   
