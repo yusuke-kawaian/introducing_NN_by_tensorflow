@@ -1,0 +1,3 @@
+ion Z mass valent pore_d vol r1 r2 gr_max
+min 3 6.941 1 7 0 1.87 3.9 9.13353
+max 56 137.3 3 13 1 2.8075 5 86.50183
