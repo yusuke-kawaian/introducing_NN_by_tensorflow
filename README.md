@@ -11,8 +11,8 @@ Rを用いた機械学習モデルの構築の練習とそのメモである. �
 * pandas 0.25.3  
 * numpy 1.14.5  
 
-## constructing NN model
-### shaping dataset
+## Methods  
+### Shaping Dataset
 7つの特徴量, `mass`, `valent`, `r1`, `r2`, `gr_max`, `vol` and `pore_d`, と1つの被説明変数を`p_total`を dataset.txt から入力.    
 このdatasetの**75%** をtraining dataset, 残りをtest datasetとし, それぞれの特徴量を以下の式で正規化した.   
 ```
@@ -26,14 +26,14 @@ normed_train_data = (train_dataset - np.array(norm_min))/np.array(norm_max - np.
 `pd.read_csv()`でdataset.txtを読み込むと, dataはobject型となる. このままでは上記の正規化の式に代入してもエラーを吐くので, `train/test_dataset.astype('float')` でfloat型に変換しておく必要がある.   
 
 
-### definition NN model
+### Definition NN Model
 今回はとりあえず以下のNNモデルを構築した. ハイパーパラメータはこれからチューニングする予定.  
 今回は参考にさせて頂いたHPのやり方 <a href="https://qiita.com/SwitchBlade/items/6677c283b2402d060cd0" target="_blank">[here]</a>に従い, 別ファイル, NN_model.py, にclassを作ってNNモデルを定義した.  
 
 ![NN model](https://github.com/yusuke-kawaian/introducing_NN_by_tensorflow/blob/master/DNN1.png)
 
 
-### loss function
+### Loss Function
 今回は**RMSE**を損失関数とし, **Adam Optimizer**で最適化した. 同時に**MSA**も計算しTensorBoardで追跡しておいた.  
 ちなみに, 精度の評価について参考にしたのはこちら. <a href="https://pythondatascience.plavox.info/scikit-learn/回帰モデルの評価" target="_blank">[here]</a>  
     
@@ -55,7 +55,7 @@ def training(loss, learning_rate):
     return train_step
 ```
 
-### accurracy  
+### Accurracy  
 このaccuracyが一番頭を悩ませた部分であった. 以前述べたように以下のコードを用いるとこの回帰問題ではずっと1を示していた.  
 ```
 accuracy = tf.reduce_mean(tf.cast(tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1)), tf.float32))
@@ -63,7 +63,7 @@ accuracy = tf.reduce_mean(tf.cast(tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1)), t
 よくよくこのコードについて勉強する <a href="http://testpy.hatenablog.com/entry/2016/11/27/035033" target="_blank">[here]</a> と, 値の合否をTRUE/FALSE判定して, その1/0を用いて計算していた. つまり, **回帰問題には不適であったということである.** (ネットで調べてもみんなMNISTの手書き数字の判定ばかりだからなかなか気づかなかった…)  
 結論としては, **本試行ではRMSEとMSAをaccuracyの指標として使用した.** 近いうちに決定係数<img src="https://latex.codecogs.com/gif.latex?R^2"/>を導入したい.  
 
-### training model
+### Training Model
 上述のモデルを用いてバッチ学習を **1000000step** 行った.  計算には京都大学のスーパーコンピュータシステム laurelを使用した.  
 
 --- memo ---  
@@ -79,6 +79,8 @@ TensorBoardはanaconda上で仮想環境を構築したクライアントPCで�
 
 ![NN model](https://github.com/yusuke-kawaian/introducing_NN_by_tensorflow/blob/master/DNN1_tensorboard.png)
 
+### Prediction  
+訓練したmodelは NN_predict.py で再度読み込むことで未知datasetに対する予測を行った.  
 
 # Conclusion    
 ~~tensorflowを用いてNNモデルを作成することは成功したが、以下の結果のように**lossは収束するもののaccuracyがずっと1を示す事象を観測した**. このNN modelは以前別の被説明変数に対して作ったものと同様であるにも関わらず、今回被説明変数を`pre_p`に変更したことで以下の挙動をしめすようになった.~~  
@@ -99,6 +101,8 @@ step 10000, training accuracy 1, loss 2.92083
 accuracyの項で述べたように以前のaccuracyの定義が回帰問題にそぐわなかったと考えられる. 
 
 ![RMSE](https://github.com/yusuke-kawaian/introducing_NN_by_tensorflow/blob/master/RMSE_train_20200521_1Mstep.png)  
+
+今回新たに構築したNN modelの精度は, training RMSE = 3.33, test RMSE = 5.12 であった. 
 
 # My Problems  
 * ~~lossは収束するが, accuracyがずっと1を示している.~~　→　そもそも回帰問題に以前の定義のaccuracyとして用いることがナンセンスであると考えられる. 回帰問題は現在lossとして用いているMSE, その他にはRMSE, MSA, R2値を用いるのが良いと考えられる.   
