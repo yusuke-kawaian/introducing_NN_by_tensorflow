@@ -1,4 +1,4 @@
-# introducing_NN_by_tensorflow
+# tensorflowによるNN回帰予測モデルの導入
 Python tensorflowを用いた機械学習モデルの構築の練習とそのメモである. 自身のMDシミュレーションを用いた研究に機械学習を導入することを目指す. 正確性を担保するためREADMEは日本語で記す. 同時に英語の練習も兼ねて英語 (README_(English).md) でも記す.  
 
 # Overview    
